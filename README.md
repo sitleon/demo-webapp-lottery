@@ -17,5 +17,3 @@ Every **`x`** seconds there will be a draw and there will be only **1** winner.
 And the system will response to contestants whether they win or not after the draw.
 
 All tickets in 1 draw will be discarded once said draw is completed.
-
-## Design
