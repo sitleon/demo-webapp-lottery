@@ -17,7 +17,8 @@ type Ticket interface {
 
 type TicketImpl struct {
 	db        *repos.DbConn
-	mu        sync.Mutex
+	incLock   sync.Mutex
+	resetLock sync.RWMutex
 	nxtTicIdx int32
 
 	// service
@@ -49,8 +50,9 @@ func (svc *TicketImpl) CreateTicket() (string, error) {
 }
 
 func (svc *TicketImpl) GetNextTicketIdSet() (string, int64) {
-	svc.mu.Lock()
-	defer svc.mu.Unlock()
+	svc.incLock.Lock()
+	defer svc.incLock.Unlock()
+	svc.resetLock.RLock()
 
 	d, x := svc.drawSvc.GetCurrentDrawId(), svc.nxtTicIdx
 	svc.nxtTicIdx += 1
@@ -60,7 +62,9 @@ func (svc *TicketImpl) GetNextTicketIdSet() (string, int64) {
 }
 
 func (svc *TicketImpl) ResetTicketIndex() {
-	// no need to lock, since get lock is required draw's lock
+	svc.resetLock.Lock()
+	defer svc.resetLock.Lock()
+
 	svc.nxtTicIdx = 0
 }
 
