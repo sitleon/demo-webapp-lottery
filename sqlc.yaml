@@ -1,0 +1,12 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    schema: "sql/schema.sql"
+    queries: "sql/query.sql"
+    gen:
+      go:
+        package: "repos"
+        out: "internal/repos"
+        emit_interface: true
+        emit_json_tags: true
+        json_tags_case_style: camel
