@@ -63,7 +63,7 @@ func (svc *TicketImpl) GetNextTicketIdSet() (string, int64) {
 
 func (svc *TicketImpl) ResetTicketIndex() {
 	svc.resetLock.Lock()
-	defer svc.resetLock.Lock()
+	defer svc.resetLock.Unlock()
 
 	svc.nxtTicIdx = 0
 }
