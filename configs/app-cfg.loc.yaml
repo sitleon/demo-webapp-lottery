@@ -3,3 +3,5 @@ http:
     port: 3000
 db:
   connection_uri: postgresql://root:password@127.0.0.1:5432/lottery?sslmode=disable
+lottery:
+  interval: 10
